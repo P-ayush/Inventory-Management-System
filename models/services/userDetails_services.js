@@ -4,9 +4,9 @@ const Sequelize = require("sequelize");
 // const users = db.users;
 const { generateToken } = require("../../helper/jwt");
 
-exports.createUserDetailServices = async (data = {}) => {
+exports.createUserDetailServices = async (params, data = {}) => {
     try {
-
+        data.userID = params;
         // const password = data.password;
         // const hash = await bcrypt.hash(password, 10);
         // const info = {
@@ -17,7 +17,7 @@ exports.createUserDetailServices = async (data = {}) => {
         const userDetail = await DB.userDetails.create(data);
         const payload = {
             id: userDetail.id,
-            userID: userDetail.userID,
+            userID: params,
         }
         const token = generateToken(payload);
         console.log("token is :", token);
@@ -38,69 +38,69 @@ exports.createUserDetailServices = async (data = {}) => {
         }
     } catch (e) {
         console.log(e);
-       
+
     }
 
 };
 
 
 
-exports.getAllUserDetailServices= async (userDetail) => {
+exports.getAllUserDetailServices = async (userDetail) => {
     const id = userDetail.id;
-	const userDetails = await DB.userDetails.findAll({
-		where :{
-			id: id,
-		}
-	});
-	if (users) {
-		return {
-			success: true,
-			data: userDetails,
-			messages: "",
-			// status: HTTP_STATUS.OK,
-		};
-	} else {
-		return {
-			success: true,
-			data: [],
-			messages: "",
-			// status: HTTP_STATUS.OK,
-		};
-	}
+    const userDetails = await DB.userDetails.findAll({
+        where: {
+            id: id,
+        }
+    });
+    if (users) {
+        return {
+            success: true,
+            data: userDetails,
+            messages: "",
+            // status: HTTP_STATUS.OK,
+        };
+    } else {
+        return {
+            success: true,
+            data: [],
+            messages: "",
+            // status: HTTP_STATUS.OK,
+        };
+    }
 };
 
-exports.updateUserDetailServices= async (data = {},params) => {
+exports.updateUserDetailServices = async ( params,data = {}) => {
     const id = params;
-	const userDetails = await DB.userDetails.findOne({
-		where: {
-			id: id,
-		},
-	});
-	if (userDetails) {
-		await DB.userDetails.update(data, {
-			where: {
-				id: id,
-			},
-		});
-		return {
-			success: true,
-			data: data,
-			messages: "user detail updated",
-			// status: HTTP_STATUS.OK,
-		};
-	} else {
-		return {
-			success: false,
-			data: {},
-			messages: "SOMETHING_WENT_WRONG",
-			// status: HTTP_STATUS.BAD_REQUEST,
-		};
-	}
+    const userDetails = await DB.userDetails.findOne({
+        where: {
+            id: id,
+        },
+    });
+    if (userDetails) {
+        await DB.userDetails.update(data, {
+            where: {
+                id: id,
+            },
+        });
+        return {
+            success: true,
+            data: data,
+            messages: "user detail updated",
+            // status: HTTP_STATUS.OK,
+        };
+    } else {
+        return {
+            success: false,
+            data: {},
+            messages: "SOMETHING_WENT_WRONG",
+            // status: HTTP_STATUS.BAD_REQUEST,
+        };
+    }
 };
 
-exports.deleteUserDetailByIdServices=async(id)=>{
-	const result =await Product.deleteOne({id});
-	if (result) {
+exports.deleteUserDetailByIdServices = async (id) => {
+    const result = await DB.userDetails.destroy({where:{id:id}  });
+    if (result) {
         return {
             success: true,
             data: result,

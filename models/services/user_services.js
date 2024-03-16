@@ -56,6 +56,7 @@ exports.getUser = async (id) => {
 		}
 	}
 	);
+	delete users.dataValues.password;
 	if (users) {
 		return {
 			success: true,

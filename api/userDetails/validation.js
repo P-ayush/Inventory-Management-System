@@ -5,7 +5,7 @@ const userDetailValidation = async (req,res,next)=>{
     address: Joi.string().required(),
     profession: Joi.string().required(),
     salary:Joi.number().required(),
-    
+    contactNo:Joi.number().required(),
     // updated_by:Joi.string().required(),
 });
 const result = await authSchema.validateAsync(req.body);
