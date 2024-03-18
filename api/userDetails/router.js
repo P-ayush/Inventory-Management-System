@@ -7,4 +7,4 @@ router.get("/userDetail/:id", jwtAuthMiddleWare,userDetailController.getUserDeta
 router.post("/addUserDetail/:id",Validation.userDetailValidation,userDetailController.addUserDetail);
 router.put("/updateUserDetail/:id",userDetailController.updateUserDetail);
 router.delete("/deleteUserDetail/:id",userDetailController.deleteUserDetail);
-module.exports = router;
+module.exports = router;    

@@ -85,6 +85,8 @@ module.exports = (sequelize, DataTypes) => {
       });
   products.associate = (models) => {
     products.belongsTo(models.users, { foreignKey: 'userID' });
+    products.belongsTo(models.store_categories, { foreignKey: 'category_id' });
   };
+  
   return products;
 }

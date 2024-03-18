@@ -26,7 +26,7 @@ exports.getCategoryByIdServices = async (id) => {
 exports.createCategoryServices = async (categoryId, data) => {
     // const product =await DB.products.create(data);
     // return product;
-
+    data.userID = categoryId;
     try {
         const category = await DB.store_categories.create(data);
 
@@ -105,4 +105,3 @@ exports.deleteCategoryByIdServices = async (id) => {
         };
     }
 }
-// bu
