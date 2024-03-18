@@ -29,16 +29,16 @@
 //   return products;
 // };
 
-const Sequelize=require("sequelize");
-module.exports =(sequelize,DataTypes)=> {
-  const products= 
+const Sequelize = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  const products =
     sequelize.define('products', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      }, 
+      },
       userID: {
         type: Sequelize.INTEGER,
         references: {
@@ -81,8 +81,10 @@ module.exports =(sequelize,DataTypes)=> {
       },
     },
       {
-			timestamps: true,
-		});
-    return products;
-  }
- 
+        timestamps: true,
+      });
+  products.associate = (models) => {
+    products.belongsTo(models.users, { foreignKey: 'userID' });
+  };
+  return products;
+}

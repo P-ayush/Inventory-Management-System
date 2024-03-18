@@ -10,11 +10,11 @@ const jwtAuthMiddleWare = (req, res, next) => {
         const payload = jwt.verify(token, "ayush");
         req.user = payload;
         // if(payload.id ==req.params.id){
-            next();
+        next();
         // }else{
         //     return res.json("unauthorized access")
         // }
-        
+
     } catch (err) {
         console.log(err);
         res.status(400).json({ error: "invalid token" });

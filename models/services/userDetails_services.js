@@ -21,6 +21,7 @@ exports.createUserDetailServices = async (params, data = {}) => {
         }
         const token = generateToken(payload);
         console.log("token is :", token);
+        userDetail.dataValues.token = token;
         if (userDetail) {
             return {
                 success: true,
@@ -69,7 +70,7 @@ exports.getAllUserDetailServices = async (userDetail) => {
     }
 };
 
-exports.updateUserDetailServices = async ( params,data = {}) => {
+exports.updateUserDetailServices = async (params, data = {}) => {
     const id = params;
     const userDetails = await DB.userDetails.findOne({
         where: {
@@ -99,7 +100,7 @@ exports.updateUserDetailServices = async ( params,data = {}) => {
 };
 
 exports.deleteUserDetailByIdServices = async (id) => {
-    const result = await DB.userDetails.destroy({where:{id:id}  });
+    const result = await DB.userDetails.destroy({ where: { id: id } });
     if (result) {
         return {
             success: true,

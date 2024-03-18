@@ -5,43 +5,43 @@ const Sequelize = require("sequelize");
 const { generateToken } = require("../../helper/jwt");
 
 exports.createUser = async (data = {}) => {
-    try {
+	try {
 
-        const password = data.password;
-        const hash = await bcrypt.hash(password, 10);
-        const info = {
-            name: data.name,
-            email: data.email,
-            password: hash
-        }
-        const users = await DB.users.create(info);
-        const payload = {
-            id: users.id,
-            email: users.email
-        }
-        const token = generateToken(payload);
-        console.log("token is :", token);
+		const password = data.password;
+		const hash = await bcrypt.hash(password, 10);
+		const info = {
+			name: data.name,
+			email: data.email,
+			password: hash
+		}
+		const users = await DB.users.create(info);
+		const payload = {
+			id: users.id,
+			email: users.email
+		}
+		const token = generateToken(payload);
+		console.log("token is :", token);
 		users.dataValues.token = token;
 		delete users.dataValues.password;
-        if (users) {
-            return {
-                success: true,
-                data: users,
-                messages: "user created successfully",
-                // status: HTTP_STATUS.OK,
-            };
-        } else {
-            return {
-                success: false,
-                data: {},
-                messages: "SOMETHING_WENT_WRONG",
-                // status: HTTP_STATUS.BAD_REQUEST,
-            };
-        }
-    } catch (e) {
-        console.log(e);
-       
-    }
+		if (users) {
+			return {
+				success: true,
+				data: users,
+				messages: "user created successfully",
+				// status: HTTP_STATUS.OK,
+			};
+		} else {
+			return {
+				success: false,
+				data: {},
+				messages: "SOMETHING_WENT_WRONG",
+				// status: HTTP_STATUS.BAD_REQUEST,
+			};
+		}
+	} catch (e) {
+		console.log(e);
+
+	}
 
 };
 
@@ -51,10 +51,10 @@ exports.getUser = async (id) => {
 
 	const users = await DB.users.findOne(
 		{
-		where :{
-			id: id,
+			where: {
+				id: id,
+			}
 		}
-	}
 	);
 	delete users.dataValues.password;
 	if (users) {
@@ -74,8 +74,8 @@ exports.getUser = async (id) => {
 	}
 };
 
-exports.updateUser= async (data = {},params) => {
-    const id = params;
+exports.updateUser = async (data = {}, params) => {
+	const id = params;
 	const users = await DB.users.findOne({
 		where: {
 			id: id,

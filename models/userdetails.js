@@ -28,9 +28,9 @@
 // };
 // 'use strict';
 // /** @type {import('sequelize-cli').Migration} */
-const Sequelize=require("sequelize");
-module.exports =(sequelize,DataTypes)=> {
-  const userDetails= 
+const Sequelize = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  const userDetails =
     sequelize.define('userDetails', {
       id: {
         allowNull: false,
@@ -68,9 +68,11 @@ module.exports =(sequelize,DataTypes)=> {
         allowNull: false,
         type: Sequelize.DATE
       }
-    },{
-			timestamps: true,
-		});
-    return userDetails;
-  }
- 
+    }, {
+      timestamps: true,
+    });
+  userDetails.associate = (models) => {
+    userDetails.belongsTo(models.users, { foreignKey: 'userID' });
+  };
+  return userDetails;
+}

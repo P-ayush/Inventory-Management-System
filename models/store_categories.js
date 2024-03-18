@@ -28,9 +28,9 @@
 //   return store_categories;
 // };
 
-const Sequelize=require("sequelize");
-module.exports =(sequelize,DataTypes)=> {
-  const store_categories= 
+const Sequelize = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  const store_categories =
     sequelize.define('store_categories', {
       id: {
         allowNull: false,
@@ -38,7 +38,7 @@ module.exports =(sequelize,DataTypes)=> {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userID:{
+      userID: {
         type: Sequelize.INTEGER,
         references: {
           model: 'users', // This should match the table name of your users model
@@ -70,8 +70,10 @@ module.exports =(sequelize,DataTypes)=> {
       }
     },
       {
-			timestamps: true,
-		});
-    return store_categories;
-  }
- 
+        timestamps: true,
+      });
+  store_categories.associate = (models) => {
+    store_categories.belongsTo(models.users, { foreignKey: 'userID' });
+  };
+  return store_categories;
+}
