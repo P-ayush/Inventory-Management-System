@@ -4,8 +4,8 @@ const Sequelize = require("sequelize");
 // const users = db.users;
 const { generateToken } = require("../../helper/jwt");
 
-exports.getProductByIdServices=async(data)=>{
- const product =await DB.products.findById(data);
+exports.getProductByIdServices=async(id)=>{
+ const product =await DB.products.findAll({where:{id:id}});
  if (product) {
     return {
         success: true,
@@ -28,11 +28,11 @@ exports.createProductServices=async(productId,data)=>{
     // return product;
 
     try {
-        const product = await DB.products.create(productId,data);
+        const product = await DB.products.create(data);
         
         const payload = {
-            id: productId.id,
-            email: data.email
+            id: productId,
+            product_name: data.product_name,
         }
         const token = generateToken(payload);
         console.log("token is :", token);
@@ -59,13 +59,13 @@ exports.createProductServices=async(productId,data)=>{
 }
 exports.updateProductServices=async(productId,data)=>{
     const id = productId;
-	const product = await DB.users.findOne({
+	const product = await DB.products.findOne({
 		where: {
 			id: id,
 		},
 	});
 	if (product) {
-		await DB.users.update(data, {
+		await DB.products.update(data, {
 			where: {
 				id: id,
 			},
@@ -87,7 +87,7 @@ exports.updateProductServices=async(productId,data)=>{
 }
 
 exports.deleteProductByIdServices=async(id)=>{
-	const result =await Product.deleteOne({id});
+	const result =await DB.products.destroy({where:{id:id}});
 	if (result) {
         return {
             success: true,

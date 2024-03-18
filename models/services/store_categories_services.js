@@ -4,8 +4,8 @@ const Sequelize = require("sequelize");
 // const users = db.users;
 const { generateToken } = require("../../helper/jwt");
 
-exports.getCategoryByIdServices=async(data)=>{
- const category =await DB.store_categories.findById(data);
+exports.getCategoryByIdServices=async(id)=>{
+ const category =await DB.store_categories.findAll({where:{id:id}});
  if (category) {
     return {
         success: true,
@@ -28,10 +28,10 @@ exports.createCategoryServices=async(categoryId,data)=>{
     // return product;
 
     try {
-        const category = await DB.store_categories.create(categoryId,data);
+        const category = await DB.store_categories.create(data);
         
         const payload = {
-            id: categoryId.id,
+            id: categoryId,
             shop_name: data.shop_name,
         }
         const token = generateToken(payload);
@@ -87,7 +87,7 @@ exports.updateCategoryServices=async(categoryId,data)=>{
 }
 
 exports.deleteCategoryByIdServices=async(id)=>{
-	const result =await DB.store_categories.deleteOne({id});
+	const result =await DB.store_categories.destroy({where:{id:id}});
 	if (result) {
         return {
             success: true,

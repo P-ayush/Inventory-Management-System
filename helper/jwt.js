@@ -9,11 +9,11 @@ const jwtAuthMiddleWare = (req, res, next) => {
     try {
         const payload = jwt.verify(token, "ayush");
         req.user = payload;
-        if(payload.id ==req.params.id){
+        // if(payload.id ==req.params.id){
             next();
-        }else{
-            return res.json("unauthorized access")
-        }
+        // }else{
+        //     return res.json("unauthorized access")
+        // }
         
     } catch (err) {
         console.log(err);

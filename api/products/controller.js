@@ -18,7 +18,7 @@ addProduct = async (req, res) => {
 updateProduct = async (req, res) => {
 
     const result = await updateProductServices(req.params.id, req.body);
-    res.status(200).send(product)
+    res.status(200).send(result)
 }
 
 deleteProduct = async (req, res) => {
