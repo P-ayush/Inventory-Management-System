@@ -4,6 +4,9 @@ const Sequelize = require("sequelize");
 // const users = db.users;
 const { generateToken } = require("../../helper/jwt");
 
+
+
+
 exports.createUser = async (data = {}) => {
 	try {
 
@@ -100,6 +103,54 @@ exports.updateUser = async (data = {}, params) => {
 			data: {},
 			messages: "SOMETHING_WENT_WRONG",
 			// status: HTTP_STATUS.BAD_REQUEST,
+		};
+	}
+};
+
+exports.signIn = async (email = null, password = "", requestData) => {
+	try {
+		let result = await DB.users.findOne({where:{email:email}});
+		if (result) {
+
+			let chkPass = await bcrypt.compare(password, result["password"]);
+			if (!chkPass) {
+				return {
+					success: false,
+					data: {},
+					messages: "EMAIL_PASSWORD_INCORRECT",
+					// status: HTTP_STATUS.OK,
+				};
+			}
+			let token = generateToken({
+				id: result.id,
+				email: result.email,
+
+			});
+
+			result = result.dataValues;
+
+			delete result.password;
+
+			return {
+				success: true,
+				data: { token: token, userDetails: result },
+				messages: "LOGIN_SUCCESS",
+				// status: HTTP_STATUS.OK,
+			};
+		}
+		return {
+			success: false,
+			data: {},
+			messages: "EMAIL_PASSWORD_INCORRECT",
+			// status: HTTP_STATUS.UNAUTHORIZED,
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			success: false,
+			data: {},
+			messages: "EMAIL_PASSWORD_INCORRECT",
+			// status: HTTP_STATUS.UNAUTHORIZED,
 		};
 	}
 };

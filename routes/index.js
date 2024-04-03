@@ -4,8 +4,9 @@ const app = express();
 const router = require("../api/users/router");
 const userDetailrouter = require("../api/userDetails/router");
 const productRouter = require("../api/products/router");
-const categoryRouter = require("../api/store_categories/router")
+const categoryRouter = require("../api/store_categories/router");
 const { jwtAuthMiddleWare, generateToken } = require("../helper/jwt");
+const authRouter = require("../api/auth/router");
 
 const initialize = (app) => {
     app.use("/api/users", router);
@@ -13,6 +14,7 @@ const initialize = (app) => {
     app.use("/api/users", userDetailrouter);
     app.use("/api/users", productRouter);
     app.use("/api/users", categoryRouter);
+    app.use("/api/auth", authRouter)
 }
 module.exports = {
     initialize,
