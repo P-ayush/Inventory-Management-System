@@ -23,14 +23,14 @@ exports.createUser = async (data = {}) => {
 			email: users.email
 		}
 		const token = generateToken(payload);
-		console.log("token is :", token);
+		
 		users.dataValues.token = token;
 		delete users.dataValues.password;
 		if (users) {
 			return {
 				success: true,
 				data: users,
-				messages: "user created successfully",
+				messages: "Signed-up successfully",
 				// status: HTTP_STATUS.OK,
 			};
 		} else {
@@ -109,7 +109,7 @@ exports.updateUser = async (data = {}, params) => {
 
 exports.signIn = async (email = null, password = "", requestData) => {
 	try {
-		let result = await DB.users.findOne({where:{email:email}});
+		let result = await DB.users.findOne({ where: { email: email } });
 		if (result) {
 
 			let chkPass = await bcrypt.compare(password, result["password"]);
