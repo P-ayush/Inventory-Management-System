@@ -3,13 +3,24 @@ const Sequelize = require("sequelize");
 // const DB = require("../../models/index");
 // const users = db.users;
 const { generateToken } = require("../../helper/jwt");
+const { empty } = require("@hapi/joi/lib/base");
 
 
 
 
-exports.createUser = async (data = {}) => {
+exports.signUp = async (data = {}) => {
 	try {
-
+        const email =await DB.users.findOne({
+			where:{email:data.email}
+		})
+		if(email){
+			return {
+				success: false,
+				
+				messages: "user with this email already exists",
+				// status: HTTP_STATUS.OK,
+			};
+		}
 		const password = data.password;
 		const hash = await bcrypt.hash(password, 10);
 		const info = {
@@ -141,7 +152,7 @@ exports.signIn = async (email = null, password = "", requestData) => {
 		return {
 			success: false,
 			data: {},
-			messages: "EMAIL_PASSWORD_INCORRECT",
+			messages: "USER_DOESNOT_EXISTS",
 			// status: HTTP_STATUS.UNAUTHORIZED,
 		};
 	} catch (error) {
@@ -149,7 +160,7 @@ exports.signIn = async (email = null, password = "", requestData) => {
 		return {
 			success: false,
 			data: {},
-			messages: "EMAIL_PASSWORD_INCORRECT",
+			messages: "LOGIN_FAILED",
 			// status: HTTP_STATUS.UNAUTHORIZED,
 		};
 	}

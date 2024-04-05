@@ -33,7 +33,7 @@ exports.signIn = async (request, response) => {
 exports.signUp = async (req, res) => {
 
     const user = req.body
-    let data = await UserService.createUser(user);
+    let data = await UserService.signUp(user);
     if (data) {
         return res.send({
             success: true,
