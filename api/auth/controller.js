@@ -39,7 +39,7 @@ exports.signUp = async (req, res) => {
             success: true,
             data: data.data,
             messages: data.messages,
-            // status: HTTP_STATUS.OK,
+             status: 200,
         });
     } else {
         return {
